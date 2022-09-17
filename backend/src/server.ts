@@ -6,6 +6,8 @@ import {
   convertMinutesToHoursString,
 } from "./utils/date";
 
+import { Game } from "@prisma/client";
+
 const app = express();
 
 app.use(express.json());
@@ -19,6 +21,18 @@ app.get("/games", async (req, res) => {
   const games = await prisma.game.findMany();
 
   res.json(games);
+});
+
+app.post("/games", async (req, res) => {
+  const { body: dto } = req;
+
+  const game = await prisma.game.create({
+    data: {
+      ...dto,
+    } as Game,
+  });
+
+  res.status(201).json(game);
 });
 
 app.get("/games/:id/ads", async (req, res) => {
