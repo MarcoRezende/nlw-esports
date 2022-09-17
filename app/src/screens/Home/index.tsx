@@ -14,14 +14,24 @@ export function Home() {
 
   const { navigate } = useNavigation();
 
-  function handleOpenGame({ id, title, bannerUrl }: GameCardProps) {
-    navigate("Game", { id, title, bannerUrl });
+  function handleOpenGame({ id, name, bannerUrl }: GameCardProps) {
+    navigate("Game", { id, name, bannerUrl });
   }
 
   useEffect(() => {
-    fetch("http://172.22.34.234/games")
-      .then((response) => response.json())
-      .then((data) => setGames(data));
+    const fetchGames = async () => {
+      try {
+        const response = await fetch("http://172.22.34.234:8090/games");
+        const data = await response.json();
+        console.debug(data);
+
+        setGames(data);
+      } catch (error) {
+        console.debug(JSON.stringify(error));
+      }
+    };
+
+    fetchGames();
   }, []);
 
   return (

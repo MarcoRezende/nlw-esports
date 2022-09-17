@@ -18,7 +18,18 @@ const prisma = new PrismaClient({
 });
 
 app.get("/games", async (req, res) => {
-  const games = await prisma.game.findMany();
+  const games = await prisma.game.findMany({
+    select: {
+      id: true,
+      _count: {
+        select: { ads: true },
+      },
+      name: true,
+      bannerUrl: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
 
   res.json(games);
 });
@@ -43,7 +54,7 @@ app.get("/games/:id/ads", async (req, res) => {
       id: true,
       name: true,
       weekDays: true,
-      userVoiceChannel: true,
+      useVoiceChannel: true,
       yearsPlaying: true,
       hourStart: true,
       hourEnd: true,
