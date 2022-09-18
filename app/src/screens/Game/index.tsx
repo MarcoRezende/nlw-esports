@@ -25,7 +25,7 @@ export function Game() {
 
   async function getUserDiscord(adsId: string) {
     try {
-      await fetch(`http://172.22.40.139:8090/ads/${adsId}/discord`)
+      await fetch(`http://172.22.42.248:8090/ads/${adsId}/discord`)
         .then((response) => response.json())
         .then((data) => setDiscordDuoSelected(data));
     } catch (error) {
@@ -41,7 +41,7 @@ export function Game() {
     const fetchGames = async () => {
       try {
         const response = await fetch(
-          `http://172.22.40.139:8090/games/${id}/ads`
+          `http://172.22.42.248:8090/games/${id}/ads`
         );
         const data = await response.json();
         console.debug(data);

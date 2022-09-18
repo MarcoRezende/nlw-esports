@@ -21,7 +21,7 @@ export function Home() {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const response = await fetch("http://172.22.40.139:8090/games");
+        const response = await fetch("http://172.22.42.248:8090/games");
         const data = await response.json();
 
         setGames(data);

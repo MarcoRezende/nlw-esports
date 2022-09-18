@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-import { StatusBar, View } from "react-native";
+import { StatusBar } from "react-native";
 import { Background } from "./src/components/Background";
 
 import {
@@ -12,8 +12,12 @@ import {
 } from "@expo-google-fonts/inter";
 import { Loading } from "./src/components/Loading";
 import { Routes } from "./src/routes";
-import Toast2 from "react-native-toast-message";
 import Toast from "react-native-root-toast";
+import * as Notification from "expo-notifications";
+
+import "./src/services/notifications-config";
+import { getPushNotificationToken } from "./src/services";
+import { Subscription } from "expo-modules-core";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -22,6 +26,39 @@ export default function App() {
     Inter_700Bold,
     Inter_900Black,
   });
+
+  const getNotificationListener = useRef<Subscription>();
+  const responseNotificationListener = useRef<Subscription>();
+
+  useEffect(() => {
+    getPushNotificationToken();
+  }, []);
+
+  useEffect(() => {
+    getNotificationListener.current =
+      Notification.addNotificationReceivedListener((notification) => {
+        console.log("Notification received", notification);
+      });
+
+    responseNotificationListener.current =
+      Notification.addNotificationResponseReceivedListener((response) => {
+        console.log("Notification response received", response);
+      });
+
+    return () => {
+      if (
+        getNotificationListener.current &&
+        responseNotificationListener.current
+      ) {
+        Notification.removeNotificationSubscription(
+          getNotificationListener.current
+        );
+        Notification.removeNotificationSubscription(
+          responseNotificationListener.current
+        );
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -34,8 +71,7 @@ export default function App() {
 
         {fontsLoaded ? <Routes /> : <Loading />}
       </Background>
-      {/* <Toast2 /> */}
-      <Toast />
+      <Toast style={{ zIndex: 999 }} />
     </>
   );
 }

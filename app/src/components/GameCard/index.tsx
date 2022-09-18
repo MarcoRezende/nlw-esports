@@ -1,7 +1,6 @@
 import React from "react";
 import {
   ImageBackground,
-  ImageSourcePropType,
   Text,
   TouchableOpacity,
   TouchableOpacityProps,
