@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StatusBar } from "react-native";
+import { StatusBar, View } from "react-native";
 import { Background } from "./src/components/Background";
 
 import {
@@ -12,6 +12,8 @@ import {
 } from "@expo-google-fonts/inter";
 import { Loading } from "./src/components/Loading";
 import { Routes } from "./src/routes";
+import Toast2 from "react-native-toast-message";
+import Toast from "react-native-root-toast";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -22,14 +24,18 @@ export default function App() {
   });
 
   return (
-    <Background>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
+    <>
+      <Background>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent
+        />
 
-      {fontsLoaded ? <Routes /> : <Loading />}
-    </Background>
+        {fontsLoaded ? <Routes /> : <Loading />}
+      </Background>
+      {/* <Toast2 /> */}
+      <Toast />
+    </>
   );
 }

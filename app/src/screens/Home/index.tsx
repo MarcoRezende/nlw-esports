@@ -21,9 +21,8 @@ export function Home() {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const response = await fetch("http://172.22.34.234:8090/games");
+        const response = await fetch("http://172.22.40.139:8090/games");
         const data = await response.json();
-        console.debug(data);
 
         setGames(data);
       } catch (error) {
@@ -52,7 +51,11 @@ export function Home() {
           horizontal
           renderItem={({ item }) => {
             return (
-              <GameCard data={item} onPress={() => handleOpenGame(item)} />
+              <GameCard
+                key={item.id}
+                data={item}
+                onPress={() => handleOpenGame(item)}
+              />
             );
           }}
         />

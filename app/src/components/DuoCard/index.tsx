@@ -1,7 +1,8 @@
 import React from "react";
-import { View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { THEME } from "../../theme";
 import { DuoInfo } from "../DuoInfo";
+import { GameController } from "phosphor-react-native";
 
 import { styles } from "./styles";
 
@@ -22,6 +23,7 @@ interface Props {
 
 export function DuoCard({
   data: { name, hourEnd, hourStart, useVoiceChannel, weekDays, yearsPlaying },
+  onConnect,
 }: Props) {
   return (
     <View style={styles.container}>
@@ -36,6 +38,10 @@ export function DuoCard({
         value={useVoiceChannel ? "Sim" : "Não"}
         color={useVoiceChannel ? THEME.COLORS.SUCCESS : THEME.COLORS.ALERT}
       />
+      <TouchableOpacity style={styles.button} onPress={onConnect}>
+        <GameController size={20} color={THEME.COLORS.TEXT} />
+        <Text style={styles.buttonTitle}>Conectar</Text>
+      </TouchableOpacity>
     </View>
   );
 }
